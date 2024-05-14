@@ -118,4 +118,10 @@ class Pupil(BaseThread):
 
 
 class PupilMessage(BaseMessage): 
-    pass 
+    pass
+    # @classmethod
+    # def list(cls:Type[T], **kwargs):
+    #     return super().list(**kwargs)
+
+# class ExportPupilMessages(BaseMessage):
+#     pass

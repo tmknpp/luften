@@ -2,6 +2,7 @@
 
 import { listPupils } from "../../dataservices";
 import { createPupil, deletePupil } from "../../dataservices";
+import { exportPupilMessages } from "../../dataservices";
 
 import { refreshPupils } from "../../dataservices";
 $: users = $listPupils
@@ -34,6 +35,13 @@ async  function createUser() {
     }
     await refreshPupils()
 
+  }
+
+  // Function to export pupil chat history
+  async function exportUserMessages(user) {
+    if (user !== '' && users.includes(user)){
+      await exportPupilMessages(user[0])
+    }
   }
 </script>
 
@@ -102,6 +110,16 @@ async  function createUser() {
                     {#each selectedUsers as user}
                         <td> Assessment </td>
                     {/each}
+                </tr>
+
+                <tr>
+                  {#each selectedUsers as user}
+                    <td>
+                      <div class="button-container">
+                        <button on:click={exportUserMessages(user)}>Export Chat</button>
+                      </div>
+                    </td>
+                  {/each}
                 </tr>
 
             </tbody>

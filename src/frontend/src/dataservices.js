@@ -232,3 +232,14 @@ export async function fetchAllData() {
 
     
 }
+
+
+export async function exportPupilMessages(pupil_id) {
+    const response = await fetch(url+ `/export_pupil_messages/` + pupil_id);
+    if (response.ok) {
+        const data = await response.json()
+        return data        
+    } else {
+        return ("Error fetching data")
+    }
+}

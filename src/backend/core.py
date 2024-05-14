@@ -11,7 +11,7 @@ from pupils import ReadingTutor
 
 import eventlet
 import random
-
+import json
 
 from openai.types.beta.threads.run import Run
 
@@ -190,7 +190,7 @@ def create_pupil_run() :
 
 
 
-        print(run.id)
+        print(run_id)
         return jsonify(run_id)
     else: 
         return jsonify("error")
@@ -219,7 +219,7 @@ def get_pupil_messages() :
             print(f"MESSAGE CONTENT : {msg.content} {type(msg.content)} {len(msg.content)}")
 
             msgs.append((msg.id, msg.content, msg.role))
-        
+    #print("END OF STACK\n\n\n")
     return jsonify(msgs)
 
 def _get_pupil_messages(thread_id, order, limit) :
@@ -228,7 +228,20 @@ def _get_pupil_messages(thread_id, order, limit) :
 
     return msgs
 
+def export_pupil_messages(pupil_id):
+    msgs = []
+    _msgs = _get_pupil_messages(thread_id=pupil_id, order='asc', limit=100)
 
+    for msg in _msgs:
+        if msg.content != None and msg.content != '' and len(msg.content) > 0:
+            msgs.append({msg.role.upper() : msg.content[0]['text']['value']})
+    
+    pupil = Pupil.retrieve(pupil_id=pupil_id)
+    output_file = f"./output_chat/{pupil.pupil_name}_chat_history.txt"
+    with open(output_file, 'w') as fout:
+        json.dump(msgs, fout)
+    print("File written - ", output_file)
+    return jsonify(msgs)
 
 def get_pupil(pupil_id):
     ret_val  = {
@@ -285,6 +298,7 @@ def link_functions_to_flask(app:Flask):
 
     app.add_url_rule("/get_pupil_messages", "get_pupil_messages", get_pupil_messages, methods=["POST"])
 
+    app.add_url_rule("/export_pupil_messages/<pupil_id>", "export_pupil_messages", export_pupil_messages)
     
     app.add_url_rule("/create_pupil/<pupil_name>", "create_pupil", create_pupil, methods=["POST"])
     app.add_url_rule("/delete_pupil/<pupil_id>", "delete_pupil", delete_pupil, methods=['DELETE'])
