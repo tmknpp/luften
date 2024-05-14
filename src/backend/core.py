@@ -123,8 +123,13 @@ def delete_pupil(pupil_id):
 
 def create_pupil(pupil_name):
 
-    pupil = Pupil.create(pupil_name=pupil_name)
-    return jsonify("ok")
+    if request.is_json:
+        data = request.get_json()
+        pupil_password = data['pupil_password']
+        pupil = Pupil.create(pupil_name=pupil_name, pupil_password=pupil_password)
+        return jsonify("ok")
+    else:
+        return jsonify("request is not json")
 
 
 

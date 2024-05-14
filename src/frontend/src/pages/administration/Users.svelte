@@ -10,6 +10,7 @@ $: users = $listPupils
 let selectedUsers  = [""]
 
 let newUser = '';
+let newPassword = '';
 
 function toDateTime(secs) {
     var t = new Date(0)
@@ -20,10 +21,11 @@ function toDateTime(secs) {
 async  function createUser() {
     if (newUser.trim() !== '' && !users.includes(newUser)) {
         
-        await createPupil(newUser)
+        await createPupil(newUser, newPassword)
         await refreshPupils()
 
         newUser = ''; // Reset the input after adding
+        newPassword = '';
     }
   }
 
@@ -64,6 +66,7 @@ async  function createUser() {
 
        <!-- Form to create new user -->
       <input type="text" bind:value={newUser} placeholder="New user name" />
+      <input type="text" bind:value={newPassword} placeholder="New user password" />
 
       <div class="button-container">
         <button on:click={createUser}>Create User</button>

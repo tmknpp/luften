@@ -68,10 +68,18 @@ export async function deletePupil(pupil_id) {
     
 }
 
-export async function createPupil(pupil_name) {
+export async function createPupil(pupil_name, pupil_password) {
 
      const response = await fetch(url+ `/create_pupil/` +pupil_name, {
-         method: 'POST',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+            pupil_password: pupil_password
+        })
+
      });
 
      if (response.ok) {
