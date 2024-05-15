@@ -7,37 +7,60 @@
     import PupilInteraction from "../sveltelib/components/pupil/pupilInteraction.svelte";
     import PupilInteractions from "../sveltelib/components/pupil/pupilInteractions.svelte";
     $: users = $listPupils
-    
+    let role = "user"
+    let currentUser= "";
+
 </script>
 
 
+{#if role == "admin"}
+    <div class="container-admin"> 
 
-<div class="container"> 
 
+        <div class="containervert-sidebar">
+            {#each users as user}
 
-    <div class="containervert-sidebar">
-        {#each users as user}
+            <label> 
+                <input type="radio" bind:group={$selectedPupil} value={user} />
+                    {user[1]}
+            </label>
 
-        <label> 
-            <input type="radio" bind:group={$selectedPupil} value={user} />
-                {user[1]}
-        </label>
+            {/each}
+        </div>
 
-        {/each}
-    </div>
-
-    <div class="containervert">
-         <div class="pupil-interactions">
-            <PupilInteractions></PupilInteractions>
-         </div>
-         <div class="pupil-interaction">
-        <PupilInteraction></PupilInteraction>
+        <div class="containervert">
+            <div class="pupil-interactions">
+                <PupilInteractions></PupilInteractions>
+            </div>
+            <div class="pupil-interaction">
+            <PupilInteraction></PupilInteraction>
+            </div>
         </div>
     </div>
-</div>
+{/if}
+
+{#if role == "user"}
+    <div class="container-user">
+        <p>Testing user view</p>
+        <div class="containervert">
+            <div class="pupil-interactions">
+                <PupilInteractions></PupilInteractions>
+            </div>
+            <div class="pupil-interaction">
+            <PupilInteraction></PupilInteraction>
+            </div>
+        </div>
+    </div>
+{/if}
 
 <style>
-    .container {
+    .container-admin {
+      display: flex;
+      flex-direction: row; /* Horizontal layout by default */
+      width: 1500px;
+    }
+
+    .container-user {
       display: flex;
       flex-direction: row; /* Horizontal layout by default */
       width: 1500px;
