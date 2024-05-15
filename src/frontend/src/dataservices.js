@@ -68,10 +68,18 @@ export async function deletePupil(pupil_id) {
     
 }
 
-export async function createPupil(pupil_name) {
+export async function createPupil(pupil_name, pupil_password) {
 
      const response = await fetch(url+ `/create_pupil/` +pupil_name, {
-         method: 'POST',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+            pupil_password: pupil_password
+        })
+
      });
 
      if (response.ok) {
@@ -231,4 +239,15 @@ export async function fetchAllData() {
     await get_reading_tutor()
 
     
+}
+
+
+export async function exportPupilMessages(pupil_id) {
+    const response = await fetch(url+ `/export_pupil_messages/` + pupil_id);
+    if (response.ok) {
+        const data = await response.json()
+        return data        
+    } else {
+        return ("Error fetching data")
+    }
 }
