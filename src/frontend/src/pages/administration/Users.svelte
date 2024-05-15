@@ -11,6 +11,15 @@ let selectedUsers  = [""]
 
 let newUser = '';
 let newPassword = '';
+let newRole ='';
+	
+const options = [{
+	value: 'admin',
+	label: 'Administrator',
+}, {
+	value: 'user',
+	label: 'User',
+}]
 
 function toDateTime(secs) {
     var t = new Date(0)
@@ -21,11 +30,12 @@ function toDateTime(secs) {
 async  function createUser() {
     if (newUser.trim() !== '' && !users.includes(newUser)) {
         
-        await createPupil(newUser, newPassword)
+        await createPupil(newUser, newPassword, newRole)
         await refreshPupils()
 
         newUser = ''; // Reset the input after adding
         newPassword = '';
+        newRole = '';
     }
   }
 
@@ -45,6 +55,7 @@ async  function createUser() {
       await exportPupilMessages(user[0])
     }
   }
+
 </script>
 
 
@@ -67,6 +78,12 @@ async  function createUser() {
        <!-- Form to create new user -->
       <input type="text" bind:value={newUser} placeholder="New user name" />
       <input type="text" bind:value={newPassword} placeholder="New user password" />
+      {#each options as { value, label }}
+        <label >
+          <input type="radio" bind:group={newRole} name={label} value={value}/>
+          {label}
+        </label>
+      {/each}
 
       <div class="button-container">
         <button on:click={createUser}>Create User</button>

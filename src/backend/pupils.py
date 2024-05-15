@@ -82,7 +82,8 @@ class PupilTracker(BaseAssistant):
 
 class Pupil(BaseThread): 
     pupil_name:Optional[str] = Field(default="")
-    pupil_password:Optional[str] = Field(default="")
+    pupil_password:Optional[str] = Field(default="1234")
+    pupil_role:Optional[str] = Field(default="user")
 
     @classmethod
     def create(cls:Type[T], **kwargs) -> T:
@@ -120,9 +121,3 @@ class Pupil(BaseThread):
 
 class PupilMessage(BaseMessage): 
     pass
-    # @classmethod
-    # def list(cls:Type[T], **kwargs):
-    #     return super().list(**kwargs)
-
-# class ExportPupilMessages(BaseMessage):
-#     pass

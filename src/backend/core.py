@@ -126,7 +126,8 @@ def create_pupil(pupil_name):
     if request.is_json:
         data = request.get_json()
         pupil_password = data['pupil_password']
-        pupil = Pupil.create(pupil_name=pupil_name, pupil_password=pupil_password)
+        pupil_role = data['pupil_role']
+        pupil = Pupil.create(pupil_name=pupil_name, pupil_password=pupil_password, pupil_role=pupil_role)
         return jsonify("ok")
     else:
         return jsonify("request is not json")
@@ -242,7 +243,7 @@ def export_pupil_messages(pupil_id):
             msgs.append({msg.role.upper() : msg.content[0]['text']['value']})
     
     pupil = Pupil.retrieve(pupil_id=pupil_id)
-    output_file = f"./output_chat/{pupil.pupil_name}_chat_history.txt"
+    output_file = f"./output_chat/{pupil.pupil_name}_chat_history.json"
     with open(output_file, 'w') as fout:
         json.dump(msgs, fout)
     print("File written - ", output_file)
