@@ -19,9 +19,10 @@
     { name: 'Core Issues', route: '/coreissues', component: CoreIssuesPage, path: '/coreissues' },
   ];
 
-  $: userRole = $curLoginRole
-  $: loginCheck = $curLoginStatus
-  //$: loginCheck = (JSON.parse(localStorage.getItem('user')))?.login
+  //$: userRole = $curLoginRole
+  $: userRole = (JSON.parse(localStorage.getItem('user')))?.role
+  //$: loginCheck = $curLoginStatus
+  $: loginCheck = (JSON.parse(localStorage.getItem('user')))?.login
   $: curUserName = $curLoginUser
 
   //let loginCheck = (JSON.parse(localStorage.getItem('user'))).login
@@ -36,15 +37,15 @@
 
     await loginValidation(username, password)
     console.log('validated', userRole)
-
-    if (userRole  === 'admin') {
+    let role = (JSON.parse(localStorage.getItem('user')))?.role
+    if (role  === 'admin') {
       navigate('/');
-    } else if (userRole  === 'user') {
+    } else if (role  === 'user') {
       navigate('/users');
     }
     else{
       console.log("login failed")
-      console.log(userRole)
+      console.log(role)
     }
   }
 </script>

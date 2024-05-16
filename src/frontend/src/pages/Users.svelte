@@ -8,6 +8,7 @@
     import PupilInteraction from "../sveltelib/components/pupil/pupilInteraction.svelte";
     import PupilInteractions from "../sveltelib/components/pupil/pupilInteractions.svelte";
     $: users = $listPupils
+    
     $: userRole = $curLoginRole
     $: loginCheck = $curLoginStatus
     $: curUserName = $curLoginUser
