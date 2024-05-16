@@ -3,17 +3,24 @@
     import { listPupils, getPupil } from "../dataservices";
     import { selectedPupil} from "../stores/selectedPupil";
 
+    import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "../dataservices";
 
     import PupilInteraction from "../sveltelib/components/pupil/pupilInteraction.svelte";
     import PupilInteractions from "../sveltelib/components/pupil/pupilInteractions.svelte";
     $: users = $listPupils
-    let role = "user"
-    let currentUser= "";
+    $: userRole = $curLoginRole
+    $: loginCheck = $curLoginStatus
+    $: curUserName = $curLoginUser
+    $: curUserID = $curLoginUserID
+
+    //let loginCheck = (JSON.parse(localStorage.getItem('user'))).login
+
+    console.log(userRole)
 
 </script>
 
-
-{#if role == "admin"}
+<h1>HI</h1>
+{#if userRole == "admin" && loginCheck}
     <div class="container-admin"> 
 
 
@@ -39,9 +46,9 @@
     </div>
 {/if}
 
-{#if role == "user"}
+{#if userRole == "user" && loginCheck}
     <div class="container-user">
-        <p>Testing user view</p>
+        <h1>Welcome, {curUserName}</h1>
         <div class="containervert">
             <div class="pupil-interactions">
                 <PupilInteractions></PupilInteractions>
