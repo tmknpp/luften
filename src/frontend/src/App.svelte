@@ -1,6 +1,9 @@
 <script>
   import DataServices from './DataServices.svelte';
 
+  import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "./dataservices";
+  import {loginValidation} from "./dataservices";
+
   import HomePage from './pages/Home.svelte';
   import UsersPage from './pages/Users.svelte';
   import CoreIssuesPage from './pages/CoreIssues.svelte';
@@ -8,7 +11,6 @@
   import LoginPage from './pages/loginpage.svelte';
 
   import { Route, Router, Link, navigate } from "svelte-routing";
-    import Loginpage from './pages/loginpage.svelte';
 
   let tabs = [
     { name: 'Home', route: '/home', component: HomePage, path: "/" },
@@ -17,30 +19,42 @@
     { name: 'Core Issues', route: '/coreissues', component: CoreIssuesPage, path: '/coreissues' },
   ];
 
-  let logincheck = false;
-  let userRole = 'admin';
+  //$: userRole = $curLoginRole
+  $: userRole = (JSON.parse(localStorage.getItem('user')))?.role
+  //$: loginCheck = $curLoginStatus
+  $: loginCheck = (JSON.parse(localStorage.getItem('user')))?.login
+  $: curUserName = $curLoginUser
 
-  function handleLogin(event) {
+  //let loginCheck = (JSON.parse(localStorage.getItem('user'))).login
+  //let loginCheck = false
+  console.log((JSON.parse(localStorage.getItem('user'))))
+  //console.log(loginCheck,(JSON.parse(localStorage.getItem('user'))), (JSON.parse(localStorage.getItem('user'))).login )
+  console.log(userRole, loginCheck, curUserName)
+
+  async function handleLogin(event) {
     const { username, password } = event.detail;
-    console.log('Login details:', username, password);
-    // Authentication logic here
-    // If successful:
-    logincheck = true;
-    //userRole = role;
+    //console.log("login handle")
 
-    if (userRole  === 'admin') {
+    await loginValidation(username, password)
+    console.log('validated', userRole)
+    let role = (JSON.parse(localStorage.getItem('user')))?.role
+    if (role  === 'admin') {
       navigate('/');
-    } else if (userRole  === 'pupil') {
+    } else if (role  === 'user') {
       navigate('/users');
+    }
+    else{
+      console.log("login failed")
+      console.log(role)
     }
   }
 </script>
 
 <DataServices></DataServices>
-
 <main style="display: flex; flex-direction: column; height: 100vh;">
+  
   <div class="mainContent" style="flex: 1; min-height: 0;">
-    {#if logincheck}
+    {#if loginCheck}
       <Router>
         <nav>
           {#if userRole === 'admin'}
@@ -61,7 +75,7 @@
         <Route path="/" component={LoginPage} on:login={handleLogin}></Route>
       </Router> -->
      <LoginPage on:login={handleLogin}> </LoginPage>
-   
+      
     {/if}
   </div>
 </main>
