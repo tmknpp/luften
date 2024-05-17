@@ -212,6 +212,7 @@ def get_pupil_messages() :
 
     if request.is_json:
         data = request.get_json()
+        print(data)
         pupil_id = data['pupil_id']
         if 'order' in data:
             order = data['order']
@@ -277,9 +278,29 @@ def list_pupils():
         actual_pupils.append((pupil.pupil_id, actual_pupil.pupil_name, actual_pupil.created_at))
     return jsonify(actual_pupils)
 
+def login_check():
+    if request.is_json:
+        #print("Entered login check")
+        data = request.get_json()
+        cur_pupil_name = data['pupil_name']
+        cur_pupil_password = data['pupil_password']
 
-
-
+        ret_val = None
+        pupils = Pupil.list()
+        #print("cur",cur_pupil_name)
+        #print("cur",cur_pupil_password)
+        for pupil in pupils:
+            actual_pupil = Pupil.retrieve(pupil_id=pupil.pupil_id)
+            #print(actual_pupil.pupil_name)
+            #print(actual_pupil.pupil_role)
+            if actual_pupil.pupil_name == cur_pupil_name and actual_pupil.pupil_password == cur_pupil_password:
+                ret_val = {"login": True, "role": actual_pupil.pupil_role, "name": actual_pupil.pupil_name, "id": pupil.pupil_id}
+        
+        if ret_val == None:
+            ret_val={"login": False}
+        #(ret_val)
+        #print("Exited logincheck")
+        return jsonify(ret_val)
 
 def link_functions_to_flask(app:Flask): 
     
@@ -308,6 +329,8 @@ def link_functions_to_flask(app:Flask):
     
     app.add_url_rule("/create_pupil/<pupil_name>", "create_pupil", create_pupil, methods=["POST"])
     app.add_url_rule("/delete_pupil/<pupil_id>", "delete_pupil", delete_pupil, methods=['DELETE'])
+
+    app.add_url_rule("/login_check", "login_check", login_check, methods=["POST"])
 
 @socketio.on('connect')
 def handle_socketio_connect():
