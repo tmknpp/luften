@@ -212,6 +212,7 @@ def get_pupil_messages() :
 
     if request.is_json:
         data = request.get_json()
+        print(data)
         pupil_id = data['pupil_id']
         if 'order' in data:
             order = data['order']

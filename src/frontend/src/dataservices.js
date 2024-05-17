@@ -10,11 +10,9 @@ export const models = writable([]);
 
 export const reading_tutor = writable();
 
-export const curLoginUser = writable();
-export const curLoginRole = writable();
-export const curLoginStatus = writable();
-//export const curLoginStatus = writable<boolean>(localStorage.curLoginStatus === 'false')
-export const curLoginUserID = writable();
+export const auth = writable(
+    localStorage.getItem("user")? JSON.parse(localStorage.getItem('user'))?.login : false
+)
 
 async function get_reading_tutor() {
     const response = await fetch(url+ `/get_reading_tutor`);
@@ -48,8 +46,6 @@ async function get_models() {
     }
 }
 
-
-
 async function fetchPupils() {
     const response = await fetch(url+ `/list_pupils`);
     if (response.ok) {
@@ -60,44 +56,43 @@ async function fetchPupils() {
     }
 }
 
-async function loginCheck(pupil_name, pupil_password){
-    console.log("login check entered")
+// async function loginCheck(pupil_name, pupil_password){
+//     console.log("login check entered")
 
 
-    const response = await fetch(url+ `/login_check`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+//     const response = await fetch(url+ `/login_check`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
 
-        body: JSON.stringify({
-            pupil_name: pupil_name,
-            pupil_password: pupil_password,
-        })
-    })
-    console.log("login check middle")
+//         body: JSON.stringify({
+//             pupil_name: pupil_name,
+//             pupil_password: pupil_password,
+//         })
+//     })
+//     console.log("login check middle")
 
-    if (response.ok){
-        const data = await response.json()
-        if(data['login'] == false){
-            //curLoginStatus.set(false)
-            curLoginStatus.set(false)
-            curLoginRole.set("")
-            curLoginUser.set("")
-            curLoginUserID.set("")
-        }
-        else{
-            curLoginStatus.set(true)
-            curLoginRole.set(data['role'])
-            curLoginUser.set(data['name'])
-            curLoginUserID.set(data['id'])
-            // local storage
-            localStorage.setItem("user", JSON.stringify(data) )
-            // (JSON.parse(localStorage.getItem('user')
-        }
-    }
-}
-
+//     if (response.ok){
+//         const data = await response.json()
+//         if(data['login'] == false){
+//             //curLoginStatus.set(false)
+//             curLoginStatus.set(false)
+//             curLoginRole.set("")
+//             curLoginUser.set("")
+//             curLoginUserID.set("")
+//         }
+//         else{
+//             curLoginStatus.set(true)
+//             curLoginRole.set(data['role'])
+//             curLoginUser.set(data['name'])
+//             curLoginUserID.set(data['id'])
+//             // local storage
+//             localStorage.setItem("user", JSON.stringify(data) )
+//             // (JSON.parse(localStorage.getItem('user')
+//         }
+//     }
+// }
 
 export async function deletePupil(pupil_id) {
 
@@ -287,9 +282,19 @@ export async function fetchAllData() {
 }
 
 export async function loginValidation(pupil_name, pupil_password){
-    console.log("loginvalidation entered")
-    await loginCheck(pupil_name, pupil_password)
-    console.log("loginvalidation exited")
+    const response = await fetch(url+ `/login_check`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+            pupil_name: pupil_name,
+            pupil_password: pupil_password,
+        })
+    })
+    const json = await response.json();
+    return json;
 }
 
 

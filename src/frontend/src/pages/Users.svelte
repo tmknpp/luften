@@ -3,24 +3,34 @@
     import { listPupils, getPupil } from "../dataservices";
     import { selectedPupil} from "../stores/selectedPupil";
 
-    import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "../dataservices";
-
     import PupilInteraction from "../sveltelib/components/pupil/pupilInteraction.svelte";
     import PupilInteractions from "../sveltelib/components/pupil/pupilInteractions.svelte";
     $: users = $listPupils
-    
-    $: userRole = $curLoginRole
-    $: loginCheck = $curLoginStatus
-    $: curUserName = $curLoginUser
-    $: curUserID = $curLoginUserID
 
-    //let loginCheck = (JSON.parse(localStorage.getItem('user'))).login
+    let userRole = (JSON.parse(localStorage.getItem('user')))?.role
+    let loginCheck = (JSON.parse(localStorage.getItem('user')))?.login
+    let curUserName = (JSON.parse(localStorage.getItem('user')))?.name
+    let curUserID = (JSON.parse(localStorage.getItem('user')))?.id
 
-    console.log(userRole)
+    async function pupilRetrieve(){
+        if(curUserID !== ""){
+            let pupil = await getPupil(curUserID)
+            const pupil_arr = [pupil.pupil_id, pupil.pupil_name, pupil.created_at]
+            $selectedPupil = pupil_arr
+            console.log("inside pupil retrieve", $selectedPupil, curUserID)
+        }
+        else{
+            console.log("Can not retrieve empty pupil")
+        }
+    }
+
+    console.log("current id", curUserID)
 
 </script>
 
-<h1>HI</h1>
+
+
+
 {#if userRole == "admin" && loginCheck}
     <div class="container-admin"> 
 
@@ -48,8 +58,9 @@
 {/if}
 
 {#if userRole == "user" && loginCheck}
+    {pupilRetrieve()}
     <div class="container-user">
-        <h1>Welcome, {curUserName}</h1>
+
         <div class="containervert">
             <div class="pupil-interactions">
                 <PupilInteractions></PupilInteractions>
