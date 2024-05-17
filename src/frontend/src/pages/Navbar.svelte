@@ -5,23 +5,28 @@
     import CoreIssuesPage from './CoreIssues.svelte';
     import Administration from './Administration.svelte';
     import LoginPage from './loginpage.svelte';
+    import Logout from "./logout.svelte";
+    
 
     let tabs = [
-    { name: 'Home', route: '/home', component: HomePage, path: "/" },
+    { name: 'Home', route: '/', component: HomePage, path: "/" },
     { name: 'Users', route: '/users', component: UsersPage, path: "/users" },
     { name: 'Administration', route: '/admin', component: Administration, path: "/admin/*" },
-    { name: 'Core Issues', route: '/coreissues', component: CoreIssuesPage, path: '/coreissues' }
-  ];
+    { name: 'Core Issues', route: '/coreissues', component: CoreIssuesPage, path: '/coreissues' },
+    
+    ];
 </script>
 
 <div>
-    <nav>
-        <ul>
-            {#each tabs as tab}
-            <li><Link to={tab.route}>{tab.name}</Link></li>
-            {/each}
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      {#each tabs as tab}
+        <li><Link to={tab.route}>{tab.name}</Link></li>
+      {/each}
+      <li><Logout /></li> <!-- Include the LogoutButton in the navbar -->
+    </ul>
+  </nav>
+  
 </div>
 
 <style>

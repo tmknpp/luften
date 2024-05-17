@@ -5,8 +5,8 @@
   //import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "./dataservices";
   //import {loginValidation} from "./dataservices";
 
-  import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "./dataservices";
-  import {loginValidation} from "./dataservices";
+ // import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "./dataservices";
+ // import {loginValidation} from "./dataservices";
 
   import HomePage from './pages/Home.svelte';
   import UsersPage from './pages/Users.svelte';
@@ -20,7 +20,7 @@
   import { Route, Router, Link, navigate } from "svelte-routing";
 
   let tabs = [
-    { name: 'Home', route: '/home', component: HomePage, path: "/" },
+    { name: 'Home', route: '/', component: HomePage, path: "/" },
     { name: 'Users', route: '/users', component: UsersPage, path: "/users" },
     { name: 'Administration', route: '/admin', component: Administration, path: "/admin/*" },
     { name: 'Core Issues', route: '/coreissues', component: CoreIssuesPage, path: '/coreissues' },

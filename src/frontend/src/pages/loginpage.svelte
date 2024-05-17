@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import {loginValidation} from "../dataservices";
 
-    import { Route, Router, Link, navigate } from "svelte-routing";
+    import {  navigate } from "svelte-routing";
   
     let username = '';
     let password = '';
