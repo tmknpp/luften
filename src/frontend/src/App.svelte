@@ -5,9 +5,6 @@
   //import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "./dataservices";
   //import {loginValidation} from "./dataservices";
 
-  import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "./dataservices";
-  import {loginValidation} from "./dataservices";
-
   import HomePage from './pages/Home.svelte';
   import UsersPage from './pages/Users.svelte';
   import CoreIssuesPage from './pages/CoreIssues.svelte';
