@@ -5,6 +5,9 @@
   //import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "./dataservices";
   //import {loginValidation} from "./dataservices";
 
+  import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "./dataservices";
+  import {loginValidation} from "./dataservices";
+
   import HomePage from './pages/Home.svelte';
   import UsersPage from './pages/Users.svelte';
   import CoreIssuesPage from './pages/CoreIssues.svelte';
@@ -22,6 +25,7 @@
     { name: 'Administration', route: '/admin', component: Administration, path: "/admin/*" },
     { name: 'Core Issues', route: '/coreissues', component: CoreIssuesPage, path: '/coreissues' },
   ];
+
 </script>
 
 <DataServices></DataServices>

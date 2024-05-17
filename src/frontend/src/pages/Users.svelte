@@ -28,6 +28,9 @@
 
 </script>
 
+
+
+
 {#if userRole == "admin" && loginCheck}
     <div class="container-admin"> 
 
@@ -57,6 +60,7 @@
 {#if userRole == "user" && loginCheck}
     {pupilRetrieve()}
     <div class="container-user">
+
         <div class="containervert">
             <div class="pupil-interactions">
                 <PupilInteractions></PupilInteractions>

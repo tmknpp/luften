@@ -56,6 +56,44 @@ async function fetchPupils() {
     }
 }
 
+// async function loginCheck(pupil_name, pupil_password){
+//     console.log("login check entered")
+
+
+//     const response = await fetch(url+ `/login_check`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+
+//         body: JSON.stringify({
+//             pupil_name: pupil_name,
+//             pupil_password: pupil_password,
+//         })
+//     })
+//     console.log("login check middle")
+
+//     if (response.ok){
+//         const data = await response.json()
+//         if(data['login'] == false){
+//             //curLoginStatus.set(false)
+//             curLoginStatus.set(false)
+//             curLoginRole.set("")
+//             curLoginUser.set("")
+//             curLoginUserID.set("")
+//         }
+//         else{
+//             curLoginStatus.set(true)
+//             curLoginRole.set(data['role'])
+//             curLoginUser.set(data['name'])
+//             curLoginUserID.set(data['id'])
+//             // local storage
+//             localStorage.setItem("user", JSON.stringify(data) )
+//             // (JSON.parse(localStorage.getItem('user')
+//         }
+//     }
+// }
+
 export async function deletePupil(pupil_id) {
 
     const response = await fetch(url+ `/delete_pupil/` +pupil_id, {
