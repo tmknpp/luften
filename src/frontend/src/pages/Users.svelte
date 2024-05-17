@@ -61,9 +61,7 @@
 
 {#if userRole == "user" && loginCheck}
     {pupilRetrieve()}
-    <ul>
-        <li><Logout /></li>
-    </ul>
+ 
     <div class="container-user">
 
         <div class="containervert">
