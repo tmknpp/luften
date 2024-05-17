@@ -3,16 +3,9 @@
     import { listPupils, getPupil } from "../dataservices";
     import { selectedPupil} from "../stores/selectedPupil";
 
-    // import { curLoginRole, curLoginStatus, curLoginUser, curLoginUserID } from "../dataservices";
-
     import PupilInteraction from "../sveltelib/components/pupil/pupilInteraction.svelte";
     import PupilInteractions from "../sveltelib/components/pupil/pupilInteractions.svelte";
     $: users = $listPupils
-    
-    // $: userRole = $curLoginRole
-    // $: loginCheck = $curLoginStatus
-    // $: curUserName = $curLoginUser
-    // $: curUserID = $curLoginUserID
 
     let userRole = (JSON.parse(localStorage.getItem('user')))?.role
     let loginCheck = (JSON.parse(localStorage.getItem('user')))?.login
@@ -32,9 +25,6 @@
     }
 
     console.log("current id", curUserID)
-    //let loginCheck = (JSON.parse(localStorage.getItem('user'))).login
-
-    // console.log(userRole)
 
 </script>
 
@@ -65,7 +55,7 @@
 {/if}
 
 {#if userRole == "user" && loginCheck}
-    {@html pupilRetrieve()}
+    {pupilRetrieve()}
     <div class="container-user">
         <div class="containervert">
             <div class="pupil-interactions">

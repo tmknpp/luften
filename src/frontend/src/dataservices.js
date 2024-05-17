@@ -10,11 +10,6 @@ export const models = writable([]);
 
 export const reading_tutor = writable();
 
-// export const curLoginUser = writable();
-// export const curLoginRole = writable();
-// export const curLoginStatus = writable();
-// //export const curLoginStatus = writable<boolean>(localStorage.curLoginStatus === 'false')
-// export const curLoginUserID = writable();
 export const auth = writable(
     localStorage.getItem("user")? JSON.parse(localStorage.getItem('user'))?.login : false
 )
@@ -51,8 +46,6 @@ async function get_models() {
     }
 }
 
-
-
 async function fetchPupils() {
     const response = await fetch(url+ `/list_pupils`);
     if (response.ok) {
@@ -62,48 +55,6 @@ async function fetchPupils() {
         listPupils.set(['Error fetching data']);
     }
 }
-
-// async function loginCheck(pupil_name, pupil_password){
-//     console.log("login check entered")
-
-
-//     const response = await fetch(url+ `/login_check`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-
-//         body: JSON.stringify({
-//             pupil_name: pupil_name,
-//             pupil_password: pupil_password,
-//         })
-//     })
-//     console.log("login check middle")
-
-//     if (response.ok){
-//         const data = await response.json()
-//         if(data['login'] == false){
-//             // curLoginStatus.set(false)
-//             // curLoginRole.set("")
-//             // curLoginUser.set("")
-//             // curLoginUserID.set("")
-//             localStorage.setItem("user", JSON.stringify(data) )
-//             //auth.set(JSON.parse(localStorage.getItem('user'))?.login)
-//         }
-//         else{
-//             // curLoginStatus.set(true)
-//             // curLoginRole.set(data['role'])
-//             // curLoginUser.set(data['name'])
-//             // curLoginUserID.set(data['id'])
-//             // local storage
-//             localStorage.setItem("user", JSON.stringify(data) )
-//             //auth.set(JSON.parse(localStorage.getItem('user'))?.login)
-//             // (JSON.parse(localStorage.getItem('user')
-//         }
-//     }
-//     return response;
-// }
-
 
 export async function deletePupil(pupil_id) {
 
