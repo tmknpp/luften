@@ -26,6 +26,7 @@
     { name: 'Core Issues', route: '/coreissues', component: CoreIssuesPage, path: '/coreissues' }
   
   ];
+
   // function handleLogout() {
   //   // Clear all localStorage data
   //   localStorage.clear();
@@ -35,6 +36,8 @@
   //   navigate('/login');
   //   // window.location.href = '/login'; // Use this if navigate doesn't work
   // }
+
+
 </script>
 
 
