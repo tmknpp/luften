@@ -1,18 +1,43 @@
 <script>
     import { createEventDispatcher } from 'svelte';
+    import {loginValidation} from "../dataservices";
+
+    import {  navigate } from "svelte-routing";
   
     let username = '';
     let password = '';
    // let role = 'pupil';
   
-    const dispatch = createEventDispatcher();
+    //const dispatch = createEventDispatcher();
+  // async function sleep(ms) {
+  //   return new Promise(resolve => setTimeout(resolve, ms));
+  // }
   
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
       event.preventDefault();
       console.log("dispatched")
-      // Dispatch an event with the login details
-      dispatch('login', { username, password });
+      // // Dispatch an event with the login details
+      // dispatch('login', { username, password });
+
+      const res = await loginValidation(username, password)
+      //await sleep(5000).then(async () => { console.log("sleep ended") });
+      console.log("res", res);
+     localStorage.setItem('user', JSON.stringify(res))
+      const role = res?.role;
+      if (role  === 'admin') {
+        //navigate('/');
+        window.location.href = '/'
+      } else if (role  === 'user') {
+        navigate('/users');
+      }
+      else{
+        console.log("login failed")
+        console.log(role)
+      }
+      
     }
+
+
   </script>
   
   <main>
