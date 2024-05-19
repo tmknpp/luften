@@ -10,9 +10,9 @@
   
     //const dispatch = createEventDispatcher();
 
-  // async function sleep(ms) {
-  //   return new Promise(resolve => setTimeout(resolve, ms));
-  // }
+    // async function sleep(ms) {
+    //   return new Promise(resolve => setTimeout(resolve, ms));
+   // }
   
     async function handleSubmit(event) {
       event.preventDefault();
@@ -23,23 +23,25 @@
       const res = await loginValidation(username, password)
       //await sleep(5000).then(async () => { console.log("sleep ended") });
       console.log("res", res);
-     localStorage.setItem('user', JSON.stringify(res))
+      localStorage.setItem('user', JSON.stringify(res))
       const role = res?.role;
-      if (role  === 'admin') {
-        //navigate('/');
-        window.location.href = '/'
-      } else if (role  === 'user') {
-        navigate('/users');
+      if (res?.login){
+        if (role  === 'admin') {
+          //navigate('/');
+          window.location.href = '/'
+        } else if (role  === 'user') {
+          navigate('/users');
+        }
+        else{
+          console.log("login failed")
+          alert("Login Failed - Internal Error")
+          console.log(role)
+        }
+      } else{
+        alert("Login Failed - Incorrect Username or Password")
       }
-      else{
-        console.log("login failed")
-        console.log(role)
-      }
-      
     }
-
-
-  </script>
+</script>
   
   <main>
     <h1>Login Page</h1>
