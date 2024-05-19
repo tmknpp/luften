@@ -54,8 +54,12 @@ class PupilTracker(BaseAssistant):
     pupils_2:str = Field(default="")
     pupils_3:str = Field(default="")
     pupils_4:str = Field(default="")
+    pupils_5:str = Field(default="")
+    pupils_6:str = Field(default="")
+    pupils_7:str = Field(default="")
+    pupils_8:str = Field(default="")
 
-    register_composite_fields_and_type("pupils", ["pupils_1", "pupils_2", "pupils_3", "pupils_4" ], BasePupil)
+    register_composite_fields_and_type("pupils", ["pupils_1", "pupils_2", "pupils_3", "pupils_4","pupils_5", "pupils_6", "pupils_7", "pupils_8" ], BasePupil)
 
     @property
     def pupils(self) -> List[BasePupil]:

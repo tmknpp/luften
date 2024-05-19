@@ -2,6 +2,8 @@
     import { use } from "marked";
     import { listPupils, getPupil } from "../dataservices";
     import { selectedPupil} from "../stores/selectedPupil";
+    import Logout from "./logout.svelte";
+    
 
     import PupilInteraction from "../sveltelib/components/pupil/pupilInteraction.svelte";
     import PupilInteractions from "../sveltelib/components/pupil/pupilInteractions.svelte";
@@ -59,6 +61,9 @@
 
 {#if userRole == "user" && loginCheck}
     {pupilRetrieve()}
+    <ul>
+        <li><Logout /></li>
+    </ul>
     <div class="container-user">
 
         <div class="containervert">
