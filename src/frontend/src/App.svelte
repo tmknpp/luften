@@ -31,8 +31,8 @@
   <div class="mainContent" style="flex: 1; min-height:0;">
 
     <Router>
-      <PublicRouteGuard />
       <PrivateRouteGuard />
+      <PublicRouteGuard />
     </Router>
 
   </div>

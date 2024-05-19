@@ -6,7 +6,8 @@
     import Administration from './Administration.svelte';
     import LoginPage from './loginpage.svelte';
     import Logout from "./logout.svelte";
-    
+
+    let loginCheck = (JSON.parse(localStorage.getItem('user')))?.login
 
     let tabs = [
     { name: 'Home', route: '/', component: HomePage, path: "/" },
@@ -26,7 +27,6 @@
       <li><Logout /></li> <!-- Include the LogoutButton in the navbar -->
     </ul>
   </nav>
-  
 </div>
 
 <style>

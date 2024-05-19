@@ -1,9 +1,9 @@
 <!-- Logout.svelte -->
 <script>
-    import { createEventDispatcher } from 'svelte';
+    //import { createEventDispatcher } from 'svelte';
     import {  navigate } from "svelte-routing"
   
-    const dispatch = createEventDispatcher();
+    // const dispatch = createEventDispatcher();
   
     function handleLogout() {
     // Clear all localStorage data
@@ -11,8 +11,8 @@
 
     // Redirect to the login page
     // You can use navigate if it's working, otherwise, use window.location.href
-    navigate('/login');
-    // window.location.href = '/login'; // Use this if navigate doesn't work
+    //navigate('/login');
+     window.location.href = '/login'; // Use this if navigate doesn't work
   }
 </script>
   

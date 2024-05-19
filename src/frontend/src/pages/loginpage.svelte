@@ -9,11 +9,10 @@
    // let role = 'pupil';
   
     //const dispatch = createEventDispatcher();
-  async function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-  
 
+  // async function sleep(ms) {
+  //   return new Promise(resolve => setTimeout(resolve, ms));
+  // }
   
     async function handleSubmit(event) {
       event.preventDefault();
@@ -27,7 +26,8 @@
      localStorage.setItem('user', JSON.stringify(res))
       const role = res?.role;
       if (role  === 'admin') {
-        navigate('/');
+        //navigate('/');
+        window.location.href = '/'
       } else if (role  === 'user') {
         navigate('/users');
       }

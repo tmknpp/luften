@@ -26,6 +26,10 @@
         }
     }
 
+    $: if (userRole === "user" && loginCheck) {
+        pupilRetrieve();
+    }
+
     console.log("current id", curUserID)
 
 </script>
@@ -60,7 +64,6 @@
 {/if}
 
 {#if userRole == "user" && loginCheck}
-    {pupilRetrieve()}
     <ul>
         <li><Logout /></li>
     </ul>
