@@ -31,7 +31,7 @@ cd psychic-eureka/src/backend
 
 pip install -r requirements.txt
 
-####source ~/creds/openai_personal   # openai api key
+source ~/creds/openai_personal   # openai api key
 
 ### run backend
 python core.py
