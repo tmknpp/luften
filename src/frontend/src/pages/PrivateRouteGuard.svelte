@@ -52,23 +52,3 @@
    
     {/each}
 </div>
-
-
-<style>
-    nav {
-      background-color: #f8f9fa;
-      padding: 10px;
-    }
-    
-    ul {
-      display: flex;
-      justify-content: space-around;
-      list-style-type: none;
-    }
-    
-    li {
-      cursor: pointer;
-      margin-left: 30px;
-      margin-right: 30px;
-    }
-  </style>

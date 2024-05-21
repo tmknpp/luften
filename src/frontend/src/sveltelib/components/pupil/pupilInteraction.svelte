@@ -13,10 +13,7 @@
       socket = value;
     });
 
-
-
-
-
+    let userRole = (JSON.parse(localStorage.getItem('user')))?.role
 
     async function performAction() {
       let result;
@@ -64,8 +61,9 @@ Pupil Interaction
 
 <button on:click={performAction}> Submit</button>
 
+{#if userRole == "admin"}
 <button on:click={performAction2}> Create Run </button>
-
+{/if}
 <style>
     textarea {
       width: 100%;
