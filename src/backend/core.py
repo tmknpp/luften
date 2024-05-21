@@ -31,6 +31,10 @@ app = Flask(__name__)
 CORS(app=app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
+if not Pupil.list():
+    print("default pupil created - username : admin, password: admin")
+    Pupil.create(pupil_name="admin", pupil_password="admin", pupil_role="admin")
+
 
 def hello(): 
     return "hello"
