@@ -19,16 +19,16 @@ If you have git cloned the directory, the source and everything comes with the c
 ## Backend
 
 ### Create a venv
-python3 -mvenv ~/envs/demo
-source ~/envs/demo/bin/activate     # to activate the virtual environment
+####python3 -mvenv ~/envs/demo
+####source ~/envs/demo/bin/activate     # to activate the virtual environment
 
 ### install python libraries
 
-pip install -e betaassi
-cd psychic-eureka/src/backend
-pip install -r requirements.txt
+####pip install -e betaassi
+####cd psychic-eureka/src/backend
+####pip install -r requirements.txt
 
-source ~/creds/openai_personal   # openai api key
+####source ~/creds/openai_personal   # openai api key
 
 ### run backend
 python core.py
