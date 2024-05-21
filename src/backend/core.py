@@ -204,47 +204,106 @@ def create_pupil_run() :
     
 
 
-def get_pupil_messages() :
-    msgs = []
+# def get_pupil_messages() :
+#     msgs = []
 
+#     order = 'desc'
+#     limit = 100
+
+#     if request.is_json:
+#         data = request.get_json()
+#         print(data)
+#         pupil_id = data['pupil_id']
+#         if 'order' in data:
+#             order = data['order']
+#         if 'limit' in data:
+#             limit = int(data['limit'])
+
+#         _msgs = _get_pupil_messages(thread_id=pupil_id, order=order, limit=limit)
+#     for msg in _msgs:
+#         if msg.content != None and msg.content != '' and len(msg.content) > 0:
+
+#             print(f"MESSAGE CONTENT : {msg.content} {type(msg.content)} {len(msg.content)}")
+
+#             msgs.append((msg.id, msg.content, msg.role))
+#     #print("END OF STACK\n\n\n")
+#     return jsonify(msgs)
+
+# def _get_pupil_messages(thread_id, order, limit) :
+
+#     msgs = PupilMessage.list(ignore_cls_type = "1", thread_id=thread_id, order=order, limit=limit)
+
+#     return msgs
+
+def get_pupil_messages():
+    msgs = []
     order = 'desc'
     limit = 100
 
     if request.is_json:
         data = request.get_json()
-        print(data)
         pupil_id = data['pupil_id']
         if 'order' in data:
             order = data['order']
         if 'limit' in data:
             limit = int(data['limit'])
 
-        _msgs = _get_pupil_messages(thread_id=pupil_id, order=order, limit=limit)
-    for msg in _msgs:
-        if msg.content != None and msg.content != '' and len(msg.content) > 0:
-
-            print(f"MESSAGE CONTENT : {msg.content} {type(msg.content)} {len(msg.content)}")
-
-            msgs.append((msg.id, msg.content, msg.role))
-    #print("END OF STACK\n\n\n")
+        _msgs_list  = _get_pupil_messages(thread_id=pupil_id, order=order, limit=limit)
+        for _msgs in _msgs_list:
+            for msg in _msgs:
+                if msg.content != None and msg.content != '' and len(msg.content) > 0:
+                    #print(f"MESSAGE CONTENT : {msg.content} {type(msg.content)} {len(msg.content)}")
+                    msgs.append((msg.id, msg.content, msg.role))
     return jsonify(msgs)
+        
 
-def _get_pupil_messages(thread_id, order, limit) :
+def _get_pupil_messages(thread_id, order, limit):
+    msgs_list = []
+    if limit != 100:
+        msgs = PupilMessage.list(ignore_cls_type = "1", thread_id=thread_id, order=order, limit=limit)
+        msgs_list.append(msgs)
+    else:
+        _msgs = client.beta.threads.messages.list(thread_id=thread_id,order=order,limit=limit)
+        msgs = PupilMessage.list(ignore_cls_type = "1", thread_id=thread_id, order=order, limit=limit)
+        msgs_list.append(msgs)
 
-    msgs = PupilMessage.list(ignore_cls_type = "1", thread_id=thread_id, order=order, limit=limit)
+        has_more = _msgs.has_more
+        while has_more:
+            _msgs = client.beta.threads.messages.list(thread_id=thread_id,order=order,limit=limit,after=_msgs.last_id)
+            msgs = PupilMessage.list(ignore_cls_type = "1", thread_id=thread_id, order=order, limit=limit,after=_msgs.last_id)
+            msgs_list.append(msgs)
+            has_more = _msgs.has_more
+    #print(msgs_list)
+    return msgs_list
 
-    return msgs
+
+# def export_pupil_messages(pupil_id):
+#     msgs = []
+#     _msgs = _get_pupil_messages(thread_id=pupil_id, order='asc', limit=100)
+
+#     for msg in _msgs:
+#         if msg.content != None and msg.content != '' and len(msg.content) > 0:
+#             msgs.append({msg.role.upper() : msg.content[0]['text']['value']})
+    
+#     pupil = Pupil.retrieve(pupil_id=pupil_id)
+#     output_file = f"./output_chat/{pupil.pupil_name}_chat_history.json"
+#     with open(output_file, 'w') as fout:
+#         json.dump(msgs, fout)
+#     print("File written - ", output_file)
+#     return jsonify(msgs)
 
 def export_pupil_messages(pupil_id):
     msgs = []
-    _msgs = _get_pupil_messages(thread_id=pupil_id, order='asc', limit=100)
+    _msgs_list = _get_pupil_messages(thread_id=pupil_id, order='asc', limit=100)
 
-    for msg in _msgs:
-        if msg.content != None and msg.content != '' and len(msg.content) > 0:
-            msgs.append({msg.role.upper() : msg.content[0]['text']['value']})
+    for _msgs in _msgs_list:
+        for msg in _msgs:
+            if msg.content != None and msg.content != '' and len(msg.content) > 0:
+                msgs.append({msg.role.upper() : msg.content[0]['text']['value']})
     
     pupil = Pupil.retrieve(pupil_id=pupil_id)
     output_file = f"./output_chat/{pupil.pupil_name}_chat_history.json"
+    print("total messages:",len(msgs))
     with open(output_file, 'w') as fout:
         json.dump(msgs, fout)
     print("File written - ", output_file)

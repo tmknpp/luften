@@ -181,7 +181,7 @@ export async function createPupilMessage(pupil_id, content1) {
     
     
 }
- export async function getPupilMessages(pupil_id,  order = 'desc', limit = 20) {
+ export async function getPupilMessages(pupil_id,  order = 'desc', limit = 100) {
 
     const response = await fetch(url+ `/get_pupil_messages`, {
         method: 'POST',
