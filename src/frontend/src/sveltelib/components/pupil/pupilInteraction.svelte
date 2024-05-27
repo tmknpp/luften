@@ -1,60 +1,43 @@
 <script>
+  import { selectedPupil, refreshMessagesTrigger } from "../../../stores/selectedPupil";
+  import { createPupilMessage , reading_tutor, createPupilRun } from "../../../dataservices";
+  import socketStore from "../../../stores/socket";
 
-    import { selectedPupil, refreshMessagesTrigger } from "../../../stores/selectedPupil";
-    import { createPupilMessage , reading_tutor, createPupilRun} from "../../../dataservices";
+  let content1 = '';  
+  let socket;
 
-    import socketStore from "../../../stores/socket";
-    
+  socketStore.subscribe(value => {
+    socket = value;
+  });
 
-    let content1 = ''  
-    let socket;
+  let userRole = (JSON.parse(localStorage.getItem('user')))?.role;
 
-    socketStore.subscribe(value => {
-      socket = value;
-    });
+  async function performAction() {
+    try {
+      socket.emit("request_response", {
+        'cmd': 'create_pupil_message',
+        'respondAt': 'stream_tutor_response',
+        'pupil_id': $selectedPupil[0],
+        'assistant_id': $reading_tutor.assistant_id,
+        'content': content1,
+      });
 
-    let userRole = (JSON.parse(localStorage.getItem('user')))?.role
-
-    async function performAction() {
-      let result;
-
-      try{
-        socket.emit("request_response", {
-          'cmd': 'create_pupil_message',
-          'respondAt': 'stream_tutor_response',
-
-          'pupil_id':  $selectedPupil[0],
-          'assistant_id':   $reading_tutor.assistant_id,
-          'content': content1,
-        })
-
-        
-      }
-      catch (error) {
-        console.log(error)
-
-      }
+      // Clear the textarea after submission
+      content1 = '';
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    async function performAction2() {
-      let result;
-
-      try{
-
-        result = await createPupilRun($selectedPupil[0], $reading_tutor.assistant_id)
-        console.log(result)
-
-      }
-      catch (error) {
-        console.log(error)
-
-      }
+  async function performAction2() {
+    try {
+      let result = await createPupilRun($selectedPupil[0], $reading_tutor.assistant_id);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
     }
-
-
-
-  </script>
-
+  }
+</script>
 
 Pupil Interaction
 <textarea bind:value={content1}></textarea>
@@ -64,9 +47,10 @@ Pupil Interaction
 {#if userRole == "admin"}
 <button on:click={performAction2}> Create Run </button>
 {/if}
+
 <style>
-    textarea {
-      width: 100%;
-      height: 200px;
-    }
-  </style>
+  textarea {
+    width: 100%;
+    height: 200px;
+  }
+</style>
