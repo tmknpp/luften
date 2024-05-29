@@ -50,14 +50,14 @@ class BasePupil(BaseModel):
 
 
 class PupilTracker(BaseAssistant):
-    pupils_1:str = Field(default="")
-    pupils_2:str = Field(default="")
-    pupils_3:str = Field(default="")
-    pupils_4:str = Field(default="")
-    pupils_5:str = Field(default="")
-    pupils_6:str = Field(default="")
-    pupils_7:str = Field(default="")
-    pupils_8:str = Field(default="")
+    pupils_1:Optional[str] = Field(default="")
+    pupils_2:Optional[str] = Field(default="")
+    pupils_3:Optional[str] = Field(default="")
+    pupils_4:Optional[str] = Field(default="")
+    pupils_5:Optional[str] = Field(default="")
+    pupils_6:Optional[str] = Field(default="")
+    pupils_7:Optional[str] = Field(default="")
+    pupils_8:Optional[str] = Field(default="")
 
     register_composite_fields_and_type("pupils", ["pupils_1", "pupils_2", "pupils_3", "pupils_4","pupils_5", "pupils_6", "pupils_7", "pupils_8" ], BasePupil)
 
@@ -113,7 +113,11 @@ class Pupil(BaseThread):
     
     @classmethod
     def list(cls:Type[T]):
-        if len(PupilTracker.list()) == 0:
+        try:
+            if len(PupilTracker.list()) == 0:
+                return []
+        except:
+            print("validation error in pupil tracker")
             return []
         else:            
             return PupilTracker.list()[0].pupils
