@@ -92,10 +92,10 @@ class Pupil(BaseThread):
     @classmethod
     def create(cls:Type[T], **kwargs) -> T:
 
-        if len(PupilTracker.list(description="no description")) == 0:
+        if len(PupilTracker.list()) == 0:
             pupil_tracker = PupilTracker.create()
         else: 
-            pupil_tracker = PupilTracker.list(description="no description")[0]
+            pupil_tracker = PupilTracker.list()[0]
     
         pupil = super().create(**kwargs)
         print(pupil)
@@ -104,19 +104,19 @@ class Pupil(BaseThread):
 
     @classmethod
     def delete(cls:Type[T], pupil_id):
-        if len(PupilTracker.list(description="no description")) == 0:
+        if len(PupilTracker.list()) == 0:
             pass
         else: 
-            pupil_tracker = PupilTracker.list(description="no description")[0]
+            pupil_tracker = PupilTracker.list()[0]
             pupil_tracker.delete_pupil(pupil_id=pupil_id)
             return super().delete(thread_id=pupil_id)
     
     @classmethod
     def list(cls:Type[T]):
-        if len(PupilTracker.list(description="no description")) == 0:
+        if len(PupilTracker.list()) == 0:
             return []
         else:            
-            return PupilTracker.list(description="no description")[0].pupils
+            return PupilTracker.list()[0].pupils
         
     @classmethod
     def retrieve(cls: type[T], pupil_id) -> T:
