@@ -27,7 +27,7 @@ source ~/envs/demo/bin/activate     # to activate the virtual environment
 
 pip install -e betaassi
 
-cd psychic-eureka/src/backend
+cd luften/src/backend
 
 pip install -r requirements.txt
 
