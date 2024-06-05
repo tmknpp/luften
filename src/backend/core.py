@@ -26,7 +26,7 @@ PREF_PROVIDER = 'OpenAI'
 PREF_MODEL = "gpt-3.5-turbo-1106"
 
 
-
+app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://luften-j7j4.onrender.com"}})
 socketio = SocketIO(app, cors_allowed_origins=["https://luften-j7j4.onrender.com"])
 
