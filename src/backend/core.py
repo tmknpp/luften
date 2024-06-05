@@ -27,17 +27,15 @@ PREF_MODEL = "gpt-3.5-turbo-1106"
 
 
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
-socketio = SocketIO(app, cors_allowed_origins=["http://localhost:5173"])
+CORS(app, resources={r"/*": {"origins": "https://luften-j7j4.onrender.com"}})
+socketio = SocketIO(app, cors_allowed_origins=["https://luften-j7j4.onrender.com"])
 
 @app.after_request
 def after_request(response):
-    print("inside requesr")
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+    response.headers.add('Access-Control-Allow-Origin', 'https://luften-j7j4.onrender.com')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    return response# app.url_map.strict_slashes = False
+    return response
 
 if not Pupil.list():
     print("default pupil created - username : admin, password: admin")
@@ -480,7 +478,7 @@ if __name__ == "__main__":
     link_functions_to_flask(app=app)
 #    link_functions_to_socketio(socketio=socketio)
 
-    socketio.run(app, debug=True)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
 
 
 
